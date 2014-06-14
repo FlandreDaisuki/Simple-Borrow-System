@@ -30,6 +30,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 public class ServerGUI extends Application{
 
@@ -50,11 +51,6 @@ public class ServerGUI extends Application{
                 data.add(new TableItem(category,item));
             }
         }
-
-//            User user = new User("localhost", 3000);
-//            user.login("Scott", "s123456");
-//            user.logout();
-//            user.close();
 
         Group root  = new Group();
         Scene scene = new Scene(root, 600, 350, Color.AQUA);
@@ -96,6 +92,7 @@ public class ServerGUI extends Application{
         VBox loginbox=new VBox(); 
         //loginbox.setPadding(new Insets(10,10,10,10));
         loginbox.setSpacing(10);
+        Label loginMsg = new Label("Hello, Guest!");
         TextField accountGrid = new TextField();
         PasswordField pwGrid = new PasswordField();
 
@@ -104,8 +101,27 @@ public class ServerGUI extends Application{
 
         HBox pwbox = new HBox();
         pwbox.getChildren().addAll(new Label("Password: "),pwGrid);
-
-        loginbox.getChildren().addAll(accountbox,pwbox);
+        
+        
+        
+        Button loginBtn = new Button("Login");
+        loginBtn.setOnAction(new EventHandler<ActionEvent>() {
+            @Override public void handle(ActionEvent e) {
+//                System.out.println("[" + accountGrid.getText() + "]");
+//                System.out.println("[" + pwGrid.getText() + "]");
+                boolean loginAccept=admin.login(accountGrid.getText(),pwGrid.getText());
+                if(loginAccept){
+                    loginMsg.setText("Hello, "+accountGrid.getText()+"!");
+                }
+                else{
+                    loginMsg.setText("Password Error!");
+                }
+            }
+        });
+        
+        HBox loginbtnbox = new HBox();
+        loginbtnbox.getChildren().addAll(loginBtn);
+        loginbox.getChildren().addAll(loginMsg,accountbox,pwbox,loginbtnbox);
 
         leftsidebar.getChildren().addAll(buttonbox,sepHor,loginbox);
 
@@ -116,8 +132,14 @@ public class ServerGUI extends Application{
         mainStage.setScene(scene);
         mainStage.show();
 
+        mainStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+            @Override
+            public void handle(WindowEvent we) {
+                admin.close();
+            }
+        });
     }
-
+    
     public static class TableItem {
         private final SimpleStringProperty category;
         private final SimpleStringProperty itemName;
