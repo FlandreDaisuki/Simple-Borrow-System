@@ -35,6 +35,7 @@ import javafx.stage.WindowEvent;
 public class ServerGUI extends Application{
 
     private TableView itemTable = new TableView();
+    private boolean _someoneLogin = false;
     
     public static void main(String[] args) {
             Application.launch(args);
@@ -44,6 +45,7 @@ public class ServerGUI extends Application{
     public void start(Stage mainStage) throws Exception {
         Administrator admin = new Administrator("localhost",3000);
         Map<String, List<String>> allItemList = admin.getAllItemList();
+        Label systemMsg=new Label("");
         
         final ObservableList<TableItem> data = FXCollections.observableArrayList();
         for (String category : allItemList.keySet()) {
@@ -55,7 +57,8 @@ public class ServerGUI extends Application{
         Group root  = new Group();
         Scene scene = new Scene(root, 600, 350, Color.AQUA);
 
-
+        VBox outerMainFrame = new VBox();
+        
         HBox mainFrame = new HBox(); // left for side bar ; right for table
         mainFrame.setPadding(new Insets(10,30,10,30));
         mainFrame.setSpacing(50);
@@ -78,10 +81,15 @@ public class ServerGUI extends Application{
         Button btn1=new Button("Button1");
         btn1.setOnAction(new EventHandler<ActionEvent>() {
             @Override public void handle(ActionEvent e) {
-
+                itemTable.setVisible(false);
             }
         });
         Button btn2=new Button("Button2");
+        btn2.setOnAction(new EventHandler<ActionEvent>() {
+            @Override public void handle(ActionEvent e) {
+                itemTable.setVisible(true);
+            }
+        });
         buttonbox.getChildren().addAll(btn1,btn2);
         buttonbox.setSpacing(50);
         buttonbox.setAlignment(Pos.CENTER);
@@ -110,24 +118,48 @@ public class ServerGUI extends Application{
 //                System.out.println("[" + accountGrid.getText() + "]");
 //                System.out.println("[" + pwGrid.getText() + "]");
                 boolean loginAccept=admin.login(accountGrid.getText(),pwGrid.getText());
-                if(loginAccept){
-                    loginMsg.setText("Hello, "+accountGrid.getText()+"!");
+                
+                if(isSomeoneLogin()){
+                    loginMsg.setText("Someone has logined !");
+                }else{
+                    if(loginAccept){
+                        loginMsg.setText("Hello, "+accountGrid.getText()+"!");
+                        systemMsg.setText(admin.getMessages().toString());
+                        someoneLogin();
+                    }else{
+                        loginMsg.setText("Password Error!");
+                    }
+                }
+            }
+        });
+        
+        Button logoutBtn = new Button("Logout");
+        logoutBtn.setOnAction(new EventHandler<ActionEvent>() {
+            @Override public void handle(ActionEvent e) {
+                if(isSomeoneLogin()){
+                    loginMsg.setText("Bye, "+accountGrid.getText()+"!");
+                    admin.logout();
+                    systemMsg.setText(admin.getMessages().toString());
+                    someoneLogout();
                 }
                 else{
-                    loginMsg.setText("Password Error!");
+                    loginMsg.setText("What are you doing!?");
                 }
             }
         });
         
         HBox loginbtnbox = new HBox();
-        loginbtnbox.getChildren().addAll(loginBtn);
+        loginbtnbox.setAlignment(Pos.CENTER);
+        loginbtnbox.setSpacing(10);
+        loginbtnbox.getChildren().addAll(loginBtn,logoutBtn);
         loginbox.getChildren().addAll(loginMsg,accountbox,pwbox,loginbtnbox);
 
         leftsidebar.getChildren().addAll(buttonbox,sepHor,loginbox);
 
 
         mainFrame.getChildren().addAll(leftsidebar,itemTable);
-        root.getChildren().add(mainFrame);
+        outerMainFrame.getChildren().addAll(systemMsg,mainFrame);
+        root.getChildren().addAll(outerMainFrame);
 
         mainStage.setScene(scene);
         mainStage.show();
@@ -163,7 +195,17 @@ public class ServerGUI extends Application{
         public void setItemName(String iName) {
             itemName.set(iName);
         }
-
     }
-        
+    
+    public boolean isSomeoneLogin() {
+        return _someoneLogin;
+    }
+    
+    public void someoneLogin() {
+        _someoneLogin=true;
+    }
+    
+    public void someoneLogout() {
+        _someoneLogin=false;
+    }
 }

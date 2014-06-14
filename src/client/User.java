@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -17,6 +18,7 @@ public class User {
     protected boolean _login;
     protected Session _session;
     protected Map<String, List<String>> _items;
+    protected List<String> _messages;
     
     protected Socket _socket;
     protected ObjectInputStream _in;
@@ -132,8 +134,14 @@ public class User {
     }
     
     public void update(List<String> data) {
-        for (String s : data) {
-            System.out.println(s);
+        _messages = data;
+    }
+    
+    public List<String> getMessages() {
+        try {
+            return new ArrayList<String>(_messages);
+        } finally {
+            _messages.clear();
         }
     }
     

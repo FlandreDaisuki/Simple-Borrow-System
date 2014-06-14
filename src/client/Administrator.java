@@ -24,6 +24,8 @@ public class Administrator extends User {
                 _session = res.getSession();
                 
                 super._login = true;
+            } else {
+                super._login = false;
             }
             
             update(res.getUpdateData());
