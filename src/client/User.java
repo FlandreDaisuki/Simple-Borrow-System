@@ -14,13 +14,13 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class User {
-    private boolean _login;
-    private Session _session;
-    private Map<String, List<String>> _items;
+    protected boolean _login;
+    protected Session _session;
+    protected Map<String, List<String>> _items;
     
-    private Socket _socket;
-    private ObjectInputStream _in;
-    private ObjectOutputStream _out;
+    protected Socket _socket;
+    protected ObjectInputStream _in;
+    protected ObjectOutputStream _out;
     
     public User(String hostname, int port) {
         try {
@@ -150,7 +150,7 @@ public class User {
         boolean result = scott.login("Scott", "s123456");
         
         if (result == true) {
-            ItemTag tag = new ItemTag("classroom", "C208");
+            ItemTag tag = new ItemTag("classroo", "C208");
             Duration duration = new Duration(new Date(), new Date());
             
             System.out.println(scott.query(tag, duration));
