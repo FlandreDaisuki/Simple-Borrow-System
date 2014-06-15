@@ -19,6 +19,7 @@ import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -58,9 +59,10 @@ public class PublicGUI extends Application{
         _itemTable.getColumns().addAll(categoryCol, itemCol);
         //Initialized
 
-        Group root  = new Group();
+        GridPane root  = new GridPane();
+        //root.setId("root");
         Scene scene = new Scene(root, 600, 600,Color.BLUEVIOLET);
-        scene.getStylesheets().add(PublicGUI.class.getResource("PublicGUI.css").toExternalForm());
+        scene.getStylesheets().add(PublicGUI.class.getResource("PublicGUI.css").toExternalForm()); //fail to set on
         
         VBox backFrame1v = new VBox();
         HBox titleAndLoginMsgFrame2h = new HBox();
@@ -92,20 +94,20 @@ public class PublicGUI extends Application{
         VBox displayFrame2v = new VBox();
         
         tgroup.selectedToggleProperty().addListener(new ChangeListener<Toggle>(){
-        public void changed(ObservableValue<? extends Toggle> ov,
-            Toggle toggle, Toggle new_toggle) {
-                if (new_toggle == null)
-                {
-                    displayFrame2v.getChildren().clear();
-                }
-                else
-                {
-                    displayFrame2v.getChildren().clear();
-                    displayFrame2v.getChildren().add((Node)tgroup.getSelectedToggle().getUserData());
-                }
-                    
-             }
-    });
+            public void changed(ObservableValue<? extends Toggle> ov,
+                Toggle toggle, Toggle new_toggle) {
+                    if (new_toggle == null)
+                    {
+                        displayFrame2v.getChildren().clear();
+                    }
+                    else
+                    {
+                        displayFrame2v.getChildren().clear();
+                        displayFrame2v.getChildren().add((Node)tgroup.getSelectedToggle().getUserData());
+                    }
+
+                 }
+        });
         
         backFrame1v.getChildren().addAll(titleAndLoginMsgFrame2h,tabFrame2h,displayFrame2v);
         root.getChildren().addAll(backFrame1v);
