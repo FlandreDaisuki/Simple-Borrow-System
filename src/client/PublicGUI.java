@@ -12,9 +12,12 @@ import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
@@ -74,10 +77,26 @@ public class PublicGUI extends Application{
         ToggleButton tb1 = new ToggleButton("Login/Logout");
         tb1.setToggleGroup(tgroup);
         tb1.setSelected(true);
-
+        
+        VBox loginFrame3v = new VBox();
+        HBox loginAccoutFrame4h = new HBox();
+        Label loginAccoutLabel = new Label("Username :");
+        TextField loginAccoutField = new TextField();
+        loginAccoutFrame4h.getChildren().addAll(loginAccoutLabel,loginAccoutField);
+        HBox loginPasswordFrame4h = new HBox();
+        Label loginPasswordLabel = new Label("Password :");
+        PasswordField loginPasswordField = new PasswordField();
+        loginPasswordFrame4h.getChildren().addAll(loginPasswordLabel,loginPasswordField);
+        HBox loginButtonFrame4h = new HBox();
+        Button loginButton = new Button("Login");
+        loginButtonFrame4h.getChildren().addAll(loginButton);
+        loginFrame3v.getChildren().addAll(loginAccoutFrame4h,loginPasswordFrame4h,loginButtonFrame4h);
+        tb1.setUserData(loginFrame3v);
+        
         ToggleButton tb2 = new ToggleButton("List All");
         tb2.setToggleGroup(tgroup);
-
+        tb2.setUserData(_itemTable);
+        
         ToggleButton tb3 = new ToggleButton("Query");
         tb3.setToggleGroup(tgroup);
         
@@ -85,8 +104,8 @@ public class PublicGUI extends Application{
         tb4.setToggleGroup(tgroup);
         tabFrame2h.getChildren().addAll(tb1,tb2,tb3,tb4);
         
-        tb1.setUserData(new Label("ABC-A"));
-        tb2.setUserData(_itemTable);
+        
+        
         tb3.setUserData(new Label("ABC-C"));
         tb4.setUserData(new Label("ABC-B"));
 
@@ -107,6 +126,9 @@ public class PublicGUI extends Application{
 
                  }
         });
+        
+        
+        
         
         backFrame1v.getChildren().addAll(titleAndLoginMsgFrame2h,tabFrame2h,displayFrame2v);
         Scene scene = new Scene(backFrame1v, 600, 600);
