@@ -59,10 +59,9 @@ public class PublicGUI extends Application{
         _itemTable.getColumns().addAll(categoryCol, itemCol);
         //Initialized
 
-        GridPane root  = new GridPane();
+        //GridPane root  = new GridPane();
         //root.setId("root");
-        Scene scene = new Scene(root, 600, 600,Color.BLUEVIOLET);
-        scene.getStylesheets().add(PublicGUI.class.getResource("PublicGUI.css").toExternalForm()); //fail to set on
+        
         
         VBox backFrame1v = new VBox();
         HBox titleAndLoginMsgFrame2h = new HBox();
@@ -110,7 +109,8 @@ public class PublicGUI extends Application{
         });
         
         backFrame1v.getChildren().addAll(titleAndLoginMsgFrame2h,tabFrame2h,displayFrame2v);
-        root.getChildren().addAll(backFrame1v);
+        Scene scene = new Scene(backFrame1v, 600, 600);
+        scene.getStylesheets().add(PublicGUI.class.getResource("PublicGUI.css").toExternalForm());
         mainStage.setScene(scene);
         mainStage.show();
 
