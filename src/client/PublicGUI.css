@@ -1,8 +1,14 @@
 
 .root {
-     -fx-background-image: url("background.png");
+    -fx-background-image: url('img/bg.png');
 }
 
+.toggle-button{
+    //-fx-graphic: url('img/btn.png');//like icon
+    //-fx-shape: "M 100 100 L 300 100 L 200 300 z";//change the button shape
+}
+
+/*
 .label {
     -fx-font-size: 12px;
     -fx-font-weight: bold;
@@ -26,4 +32,4 @@
   -fx-fill: FIREBRICK;
   -fx-font-weight: bold;
   -fx-effect: dropshadow( gaussian , rgba(255,255,255,0.5) , 0,0,0,1 );  
-}
+}*/

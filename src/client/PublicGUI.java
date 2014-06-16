@@ -132,7 +132,7 @@ public class PublicGUI extends Application{
         
         backFrame1v.getChildren().addAll(titleAndLoginMsgFrame2h,tabFrame2h,displayFrame2v);
         Scene scene = new Scene(backFrame1v, 600, 600);
-        scene.getStylesheets().add(PublicGUI.class.getResource("PublicGUI.css").toExternalForm());
+        scene.getStylesheets().add(this.getClass().getResource("PublicGUI.css").toExternalForm());
         mainStage.setScene(scene);
         mainStage.show();
 
