@@ -1,5 +1,6 @@
 package client;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 import javafx.application.Application;
@@ -9,11 +10,14 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TableColumn;
@@ -137,6 +141,49 @@ public class PublicGUI extends Application{
         
         ToggleButton tb3 = new ToggleButton("Query");
         tb3.setToggleGroup(tgroup);
+        VBox queryFrame3v = new VBox();
+        
+        HBox quaryCategoryFrame4h = new HBox();
+        Label quaryCategoryLabel = new Label("Category: ");
+        ChoiceBox quaryCategoryCB = new ChoiceBox(FXCollections.observableArrayList("ABC","DEF"));
+        quaryCategoryFrame4h.getChildren().addAll(quaryCategoryLabel,quaryCategoryCB);
+        
+        HBox quaryNameFrame4h = new HBox();
+        Label quaryNameLabel = new Label("Name: ");
+        ChoiceBox quaryNameCB = new ChoiceBox(FXCollections.observableArrayList("CBA","FED"));
+        quaryNameFrame4h.getChildren().addAll(quaryNameLabel,quaryNameCB);
+        
+        HBox quaryDateFrame4h = new HBox();
+        VBox queryDateFromFrame5v = new VBox();
+        Label queryDateFromLabel = new Label("From :");
+        DatePicker dateFromPicker = new DatePicker();
+        dateFromPicker.setOnAction(new EventHandler() {
+            public void handle(Event t) {
+                //LocalDate dateFrom = dateFromPicker.getValue();
+                //System.err.println("Selected date: " + dateFrom);
+            }
+        });
+        queryDateFromFrame5v.getChildren().addAll(queryDateFromLabel,dateFromPicker);
+        
+        VBox queryDateToFrame5v = new VBox();
+        Label queryDateToLabel = new Label("To :");
+        DatePicker dateToPicker = new DatePicker();
+        dateToPicker.setOnAction(new EventHandler() {
+            public void handle(Event t) {
+                //LocalDate dateFrom = dateFromPicker.getValue();
+                //System.err.println("Selected date: " + dateFrom);
+            }
+        });
+        queryDateToFrame5v.getChildren().addAll(queryDateToLabel,dateToPicker);
+        quaryDateFrame4h.getChildren().addAll(queryDateFromFrame5v,queryDateToFrame5v);
+        
+        HBox quaryLowestFrame4h = new HBox();
+        Label queryInfo = new Label("queryInfo");
+        Button queryButton = new Button("Query!");
+        quaryLowestFrame4h.getChildren().addAll(queryInfo,queryButton);
+        
+        queryFrame3v.getChildren().addAll(quaryCategoryFrame4h,quaryNameFrame4h,quaryDateFrame4h,quaryLowestFrame4h);
+        tb3.setUserData(queryFrame3v);
         
         ToggleButton tb4 = new ToggleButton("Borrow");
         tb4.setToggleGroup(tgroup);
@@ -144,7 +191,7 @@ public class PublicGUI extends Application{
         
         
         
-        tb3.setUserData(new Label("ABC-C"));
+        
         tb4.setUserData(new Label("ABC-B"));
 
         VBox displayFrame2v = new VBox();
