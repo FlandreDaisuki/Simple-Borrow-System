@@ -8,6 +8,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Node;
@@ -79,6 +80,7 @@ public class PublicGUI extends Application{
         tb1.setSelected(true);
         
         VBox loginFrame3v = new VBox();
+        Label loginInfo=new Label("");
         HBox loginAccoutFrame4h = new HBox();
         Label loginAccoutLabel = new Label("Username :");
         TextField loginAccoutField = new TextField();
@@ -89,8 +91,44 @@ public class PublicGUI extends Application{
         loginPasswordFrame4h.getChildren().addAll(loginPasswordLabel,loginPasswordField);
         HBox loginButtonFrame4h = new HBox();
         Button loginButton = new Button("Login");
-        loginButtonFrame4h.getChildren().addAll(loginButton);
-        loginFrame3v.getChildren().addAll(loginAccoutFrame4h,loginPasswordFrame4h,loginButtonFrame4h);
+        loginButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override public void handle(ActionEvent e) {
+                boolean loginAccept=user.login(loginAccoutField.getText(),loginPasswordField.getText());
+                
+                if(_loginBool){
+                    loginInfo.setText(_loginName+" has logined !");
+                }else{
+                    if(loginAccept){
+                        _loginBool=true;
+                        _loginName=loginAccoutField.getText();
+                        loginInfo.setText("Hello, "+_loginName+"!");
+                        loginMsgLabel.setText("Hello, "+_loginName+"!");
+                        //systemMsg.setText(admin.getMessages().toString());
+                    }else{
+                        loginInfo.setText("Password Error!");
+                    }
+                }
+            }
+        });
+        Button logoutButton = new Button("Logout");
+        logoutButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override public void handle(ActionEvent e) {
+                if(_loginBool){
+                    loginInfo.setText("Bye, "+_loginName+"!");
+                    user.logout();
+                    //systemMsg.setText(admin.getMessages().toString());
+                    _loginBool=false;
+                    _loginName="Guest";
+                    
+                    loginMsgLabel.setText("Hello, "+_loginName+"!");
+                }
+                else{
+                    loginInfo.setText("What are you doing!?");
+                }
+            }
+        });
+        loginButtonFrame4h.getChildren().addAll(loginButton,logoutButton);
+        loginFrame3v.getChildren().addAll(loginInfo,loginAccoutFrame4h,loginPasswordFrame4h,loginButtonFrame4h);
         tb1.setUserData(loginFrame3v);
         
         ToggleButton tb2 = new ToggleButton("List All");
@@ -110,6 +148,7 @@ public class PublicGUI extends Application{
         tb4.setUserData(new Label("ABC-B"));
 
         VBox displayFrame2v = new VBox();
+        displayFrame2v.getChildren().addAll(loginFrame3v);
         
         tgroup.selectedToggleProperty().addListener(new ChangeListener<Toggle>(){
             public void changed(ObservableValue<? extends Toggle> ov,
