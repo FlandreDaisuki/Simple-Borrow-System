@@ -4,33 +4,48 @@
     -fx-background-repeat: repeat, repeat;
 }
 
-.toggle-button{
-    -fx-graphic: url('img/btn_icon.png');//like icon
-    //-fx-shape: "M 100 100 L 300 100 L 200 300 z";//change the button shape
+#queryframe3v {
+    -fx-padding: 20 20 20 100;
+    -fx-spacing: 15;
 }
 
-/*
-.label {
-    -fx-font-size: 12px;
-    -fx-font-weight: bold;
-    -fx-text-fill: #333333;
-    -fx-effect: dropshadow( gaussian , rgba(255,255,255,0.5) , 0,0,0,1 );
+#tb1 {
+    -fx-graphic: url('img/login.png');
 }
 
-#borrowsystem-text {
-   -fx-font-size: 55px;
-   -fx-font-family: "Arial Black";
-   -fx-fill: #818181;
-   -fx-effect: innershadow( three-pass-box , rgba(0,0,0,0.7) , 6, 0.0 , 0 , 2 );
+#tb2 {
+    -fx-graphic: url('img/allitem.png');
 }
 
-#mainvbox {
-   -fx-alignment: CENTER;
-   -fx-padding: -80 0 0 0;
+#tb3 {
+    -fx-graphic: url('img/search.png');
 }
- 
-#actiontarget {
-  -fx-fill: FIREBRICK;
-  -fx-font-weight: bold;
-  -fx-effect: dropshadow( gaussian , rgba(255,255,255,0.5) , 0,0,0,1 );  
-}*/
+
+#tb4 {
+    -fx-graphic: url('img/borrow.png');
+}
+
+#tabframe {
+    -fx-alignment: BASELINE_CENTER;
+}
+
+#title {
+    -fx-alignment: BASELINE_CENTER;
+    -fx-spacing: 20;
+}
+
+#titlelabel {
+    -fx-font-size: 48px;
+    -fx-font-family: "Arial Black";
+    -fx-text-fill: #818181;
+    -fx-effect: innershadow( three-pass-box, rgba(0, 0, 0, 0.7), 6, 0, 0, 2);
+}
+
+#loginmsg {
+    -fx-font-size: 24px;
+}
+
+#loginframe3v {
+    -fx-padding: 20 20 20 100;
+    -fx-spacing: 10;
+}

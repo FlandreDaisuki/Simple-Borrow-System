@@ -149,15 +149,25 @@ public class PublicGUI extends Application{
         
         HBox quaryCategoryFrame4h = new HBox();
         Label quaryCategoryLabel = new Label("Category: ");
-        ChoiceBox quaryCategoryCB = new ChoiceBox(FXCollections.observableArrayList(categoryCol.getCellData(0)));
+        ChoiceBox quaryCategoryCB = new ChoiceBox(FXCollections.observableArrayList(user.getAllItemList().keySet()));
         quaryCategoryFrame4h.getChildren().addAll(quaryCategoryLabel,quaryCategoryCB);
         
         HBox quaryNameFrame4h = new HBox();
         Label quaryNameLabel = new Label("Name: ");
-        ChoiceBox quaryNameCB = new ChoiceBox(FXCollections.observableArrayList(itemCol.getCellData(0),itemCol.getCellData(1)));
+        ChoiceBox quaryNameCB = new ChoiceBox(FXCollections.observableArrayList());
+        quaryCategoryCB.getSelectionModel().selectedItemProperty().addListener(
+            new ChangeListener<Object> () {
+                @Override
+                public void changed(ObservableValue<? extends Object> ov, Object t, Object new_t) {
+                    quaryNameCB.setItems(FXCollections.observableArrayList(user.getAllItemList().get(new_t)));
+                }
+            }
+        );
         quaryNameFrame4h.getChildren().addAll(quaryNameLabel,quaryNameCB);
         
         HBox quaryDateFrame4h = new HBox();
+        quaryDateFrame4h.setSpacing(20);
+        
         VBox queryDateFromFrame5v = new VBox();
         Label queryDateFromLabel = new Label("From :");
         DatePicker dateFromPicker = new DatePicker();
@@ -182,6 +192,7 @@ public class PublicGUI extends Application{
         quaryDateFrame4h.getChildren().addAll(queryDateFromFrame5v,queryDateToFrame5v);
         
         HBox quaryLowestFrame4h = new HBox();
+        quaryLowestFrame4h.setSpacing(15);
         Label queryInfo = new Label("queryInfo");
         Button queryButton = new Button("Query!");
         
@@ -242,7 +253,19 @@ public class PublicGUI extends Application{
         });
         
         
-        
+        /*CSS setting*/
+        titleLabel.setId("titlelabel");
+        loginMsgLabel.setId("loginmsg");
+        titleAndLoginMsgFrame2h.setId("title");
+        loginFrame3v.setId("loginframe3v");
+        tabFrame2h.setId("tabframe");
+        _itemTable.setId("itemtable");
+        tb1.setId("tb1");
+        tb2.setId("tb2");
+        tb3.setId("tb3");
+        tb4.setId("tb4");
+        queryFrame3v.setId("queryframe3v");
+        /*CSS setting*/
         
         backFrame1v.getChildren().addAll(titleAndLoginMsgFrame2h,tabFrame2h,displayFrame2v);
         Scene scene = new Scene(backFrame1v, 600, 600);
