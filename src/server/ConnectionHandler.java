@@ -88,16 +88,17 @@ class ConnectionHandler implements Runnable, Observer {
                         break;
                     case "Borrow":
                         Borrow borrow = (Borrow) request;
-                        
                         UserData user = _users.getUser(session);
                         Item item = _items.getItem(borrow.getItemTag());
-                        
-                        success &= _items.borrow(user, item, borrow.getDuration());
-                        
-                        response = new BorrowResponse(success);
-                        
-                        updateMsg = "User " + session.getName() + " borrow " + item;
-                        
+                        if (user == null) {
+                            success = false;
+                        } else { 
+                            success &= _items.borrow(user, item, borrow.getDuration()); 
+                        } 
+                        response = new BorrowResponse(success); 
+                        if(success) {
+                            updateMsg = "User " + session.getName() + " borrow " + item; 
+                        }
                         break;
                     case "Back":
                         break;

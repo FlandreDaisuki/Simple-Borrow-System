@@ -29,9 +29,12 @@ public class UserDatabase {
     }
     
     public boolean verify(Session session) {
-        UserData user = _users.get(session.getName());
-        
-        return user != null && user.getSalt().compareTo(session.getID()) == 0;
+        try {
+            UserData user = _users.get(session.getName());
+            return user.getSalt().compareTo(session.getID()) == 0;
+        } catch (NullPointerException e) {
+            return false;
+        }
     }
     
     public UserData getUser(Session session) {
