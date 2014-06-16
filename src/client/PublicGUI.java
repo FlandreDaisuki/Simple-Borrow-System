@@ -1,8 +1,10 @@
 package client;
 
+
+import database.Duration;
+import database.ItemTag;
 import java.time.LocalDate;
-import java.util.List;
-import java.util.Map;
+import java.util.Date;
 import javafx.application.Application;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ChangeListener;
@@ -12,7 +14,6 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
-import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -42,9 +43,12 @@ public class PublicGUI extends Application{
     private TableView _itemTable = new TableView();
     private boolean _loginBool = false;
     private String _loginName = "Guest";
+    private LocalDate _queryDateFrom;
+    private LocalDate _queryDateTo;
     
     public static void main(String[] args) {
             Application.launch(args);
+        
     }
     
     @Override
@@ -145,12 +149,12 @@ public class PublicGUI extends Application{
         
         HBox quaryCategoryFrame4h = new HBox();
         Label quaryCategoryLabel = new Label("Category: ");
-        ChoiceBox quaryCategoryCB = new ChoiceBox(FXCollections.observableArrayList("ABC","DEF"));
+        ChoiceBox quaryCategoryCB = new ChoiceBox(FXCollections.observableArrayList(categoryCol.getCellData(0)));
         quaryCategoryFrame4h.getChildren().addAll(quaryCategoryLabel,quaryCategoryCB);
         
         HBox quaryNameFrame4h = new HBox();
         Label quaryNameLabel = new Label("Name: ");
-        ChoiceBox quaryNameCB = new ChoiceBox(FXCollections.observableArrayList("CBA","FED"));
+        ChoiceBox quaryNameCB = new ChoiceBox(FXCollections.observableArrayList(itemCol.getCellData(0),itemCol.getCellData(1)));
         quaryNameFrame4h.getChildren().addAll(quaryNameLabel,quaryNameCB);
         
         HBox quaryDateFrame4h = new HBox();
@@ -158,8 +162,8 @@ public class PublicGUI extends Application{
         Label queryDateFromLabel = new Label("From :");
         DatePicker dateFromPicker = new DatePicker();
         dateFromPicker.setOnAction(new EventHandler() {
-            public void handle(Event t) {
-                //LocalDate dateFrom = dateFromPicker.getValue();
+             @Override public void handle(Event t) {
+                _queryDateFrom = dateFromPicker.getValue();
                 //System.err.println("Selected date: " + dateFrom);
             }
         });
@@ -169,8 +173,8 @@ public class PublicGUI extends Application{
         Label queryDateToLabel = new Label("To :");
         DatePicker dateToPicker = new DatePicker();
         dateToPicker.setOnAction(new EventHandler() {
-            public void handle(Event t) {
-                //LocalDate dateFrom = dateFromPicker.getValue();
+            @Override public void handle(Event t) {
+                _queryDateTo = dateToPicker.getValue();
                 //System.err.println("Selected date: " + dateFrom);
             }
         });
@@ -180,6 +184,30 @@ public class PublicGUI extends Application{
         HBox quaryLowestFrame4h = new HBox();
         Label queryInfo = new Label("queryInfo");
         Button queryButton = new Button("Query!");
+        
+        queryButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override public void handle(ActionEvent e) {
+                
+                String selectedCategory=(String) quaryCategoryCB.getSelectionModel().getSelectedItem();
+                String selectedName=(String) quaryNameCB.getSelectionModel().getSelectedItem();
+                
+                if(_queryDateFrom!=null && _queryDateTo!=null && !selectedCategory.isEmpty() && !selectedName.isEmpty())
+                {
+                    ItemTag itg = new ItemTag(selectedCategory,selectedName);
+                    Duration dur=new Duration(new Date(_queryDateFrom.toEpochDay()),new Date(_queryDateTo.toEpochDay()));
+                    boolean queryFetch = user.query(itg,dur);
+                    
+                    if(queryFetch){
+                        queryInfo.setText("Can Borrow!");
+                    }else{
+                        queryInfo.setText("Have been borrowed!");
+                    }
+                    
+                }else{
+                    queryInfo.setText("Some slot is NULL");
+                }
+            }
+        });
         quaryLowestFrame4h.getChildren().addAll(queryInfo,queryButton);
         
         queryFrame3v.getChildren().addAll(quaryCategoryFrame4h,quaryNameFrame4h,quaryDateFrame4h,quaryLowestFrame4h);
