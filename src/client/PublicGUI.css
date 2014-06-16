@@ -5,7 +5,7 @@
 }
 
 .toggle-button{
-    -fx-graphic: url('img/btn.png');//like icon
+    -fx-graphic: url('img/btn_icon.png');//like icon
     //-fx-shape: "M 100 100 L 300 100 L 200 300 z";//change the button shape
 }
 
