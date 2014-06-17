@@ -157,6 +157,10 @@ class ConnectionHandler implements Runnable, Observer {
                     _out.writeObject(response);
                     _out.flush();
                     
+                    for (String s : _updateDataBuffer) {
+                        System.out.println(s);
+                    }
+                    
                     _updateDataBuffer.clear();
                 } else {
                     break;

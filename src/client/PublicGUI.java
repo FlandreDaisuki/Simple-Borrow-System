@@ -14,6 +14,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -47,14 +48,19 @@ public class PublicGUI extends Application{
     private String _loginName = "Guest";
     private LocalDate _queryDateFrom;
     private LocalDate _queryDateTo;
+    private static String _hostname;
+    private static User user;
     
     public static void main(String[] args) {
-            Application.launch(args);
+        _hostname = "localhost";//args[0] == null ? "localhost" : args[0];
+        
+        user = new User(_hostname,3000);
+        Application.launch(args);
     }
     
     @Override
     public void start(Stage mainStage) throws Exception {
-        Administrator user = new Administrator("localhost",3000);
+        
 //        User user = new User("localhost",3000);
         
         final ObservableList<PublicGUI.TableItem> data = FXCollections.observableArrayList();
@@ -97,14 +103,23 @@ public class PublicGUI extends Application{
         PasswordField loginPasswordField = new PasswordField();
         loginPasswordFrame4h.getChildren().addAll(loginPasswordLabel,loginPasswordField);
         HBox loginButtonFrame4h = new HBox();
+        
+        
         Button loginButton = new Button("Login");
         loginButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override public void handle(ActionEvent e) {
-                boolean loginAccept=user.login(loginAccoutField.getText(),loginPasswordField.getText());
+                boolean isAdmin = false;
+                
+                if (isAdmin) {
+                    user.close();
+                    
+                    user = new Administrator(_hostname, 3000);
+                }
                 
                 if(_loginBool){
                     loginInfo.setText(_loginName+" has logined !");
                 }else{
+                    boolean loginAccept=user.login(loginAccoutField.getText(),loginPasswordField.getText());
                     if(loginAccept){
                         _loginBool=true;
                         _loginName=loginAccoutField.getText();
@@ -273,7 +288,7 @@ public class PublicGUI extends Application{
         
         HBox borrowLowestFrame4h = new HBox();
         borrowLowestFrame4h.setSpacing(15);
-        Label borrowInfo = new Label("BorrowInfo");
+        Label borrowInfo = new Label("");
         Button borrowButton = new Button("Borrow!");
         
         borrowButton.setOnAction(new EventHandler<ActionEvent>() {
@@ -314,6 +329,7 @@ public class PublicGUI extends Application{
         introFrame3.setImage(introImg);
 
         VBox displayFrame2v = new VBox();
+        displayFrame2v.setAlignment(Pos.CENTER);
         displayFrame2v.getChildren().addAll(loginFrame3v);
         
         tgroup.selectedToggleProperty().addListener(new ChangeListener<Toggle>(){
@@ -337,18 +353,23 @@ public class PublicGUI extends Application{
         titleAndLoginMsgFrame2h.setId("title");
         loginFrame3v.setId("loginframe3v");
         tabFrame2h.setId("tabframe");
-        _itemTable.setId("itemtable");
         tb1.setId("tb1");
         tb2.setId("tb2");
         tb3.setId("tb3");
         tb4.setId("tb4");
-        queryFrame3v.setId("queryframe3v");
+        queryFrame3v.setId("frame3v");
+        loginButtonFrame4h.setSpacing(15);
+        borrowFrame3v.setId("frame3v");
+        loginInfo.setId("warningtext");
+        queryInfo.setId("warningtext");
+        borrowInfo.setId("warningtext");
         /*CSS setting*/
         
         backFrame1v.getChildren().addAll(titleAndLoginMsgFrame2h,tabFrame2h,displayFrame2v);
-        Scene scene = new Scene(backFrame1v, 600, 600);
+        Scene scene = new Scene(backFrame1v, 600, 400);
         scene.getStylesheets().add(this.getClass().getResource("PublicGUI.css").toExternalForm());
         mainStage.setScene(scene);
+        mainStage.setTitle("地方的物品需要出借");
         mainStage.show();
 
         mainStage.setOnCloseRequest(new EventHandler<WindowEvent>() {

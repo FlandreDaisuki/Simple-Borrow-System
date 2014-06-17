@@ -17,7 +17,9 @@ public class UserDatabase {
         _users = new HashMap<>();
         _activeUsers = new ArrayList<>();
         
-        _users.put("Scott", new UserData("Scott", Utils.hash("s123456"), Permission.ADMIN));
+        _users.put("Scott", new UserData("Scott", Utils.hash("s123456"), Permission.USER));
+        _users.put("Qwertyuiopasdfghjkl", new UserData("Qwertyuiopasdfghjkl", Utils.hash("123"), Permission.USER));
+        _users.put("Johnson", new UserData("Johnson", Utils.hash("s123456"), Permission.ADMIN));
     }
     
     public static UserDatabase getInstance() {

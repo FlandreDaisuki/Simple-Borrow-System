@@ -15,8 +15,17 @@ public class ItemDatabase {
         _items = new HashMap<>();
         _itemList = new HashMap<>();
         
-        addItem(new Item(new ItemTag("classroom", "C209"), Permission.USER));
-        addItem(new Item(new ItemTag("classroom", "C208"), Permission.USER));
+        addItem(new Item(new ItemTag("classroom", "C209"), Permission.ADV_USER));
+        addItem(new Item(new ItemTag("classroom", "C208"), Permission.ADV_USER));
+        
+        addItem(new Item(new ItemTag("textbook", "algorithm"), Permission.USER));
+        addItem(new Item(new ItemTag("textbook", "data structure"), Permission.USER));
+        addItem(new Item(new ItemTag("textbook", "database"), Permission.USER));
+        addItem(new Item(new ItemTag("textbook", "system software"), Permission.USER));
+        
+        addItem(new Item(new ItemTag("movie", "hulk"), Permission.PUBLIC));
+        addItem(new Item(new ItemTag("movie", "iron man"), Permission.PUBLIC));
+        addItem(new Item(new ItemTag("movie", "ted"), Permission.PUBLIC));
     }
     
     public static ItemDatabase getInstance() {

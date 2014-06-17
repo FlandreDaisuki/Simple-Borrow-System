@@ -4,7 +4,11 @@
     -fx-background-repeat: repeat, repeat;
 }
 
-#queryframe3v {
+#warningtext {
+    -fx-text-fill: red;
+}
+
+#frame3v {
     -fx-padding: 20 20 20 100;
     -fx-spacing: 15;
 }
@@ -46,6 +50,8 @@
 }
 
 #loginframe3v {
-    -fx-padding: 20 20 20 100;
+    -fx-padding: 10 20 20 100;
     -fx-spacing: 10;
 }
+
+
